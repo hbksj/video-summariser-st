@@ -70,42 +70,42 @@ if file is not None:
 
 submit=st.button("Submit")
 
-
-if (input_url is not None and len(input_url)>0) or drop_down==PDF_SUMMARIZER :
-    try: 
-        if not validators.url(input_url) and drop_down != WIKIPEDIA and drop_down!=PDF_SUMMARIZER:
-            st.error("Not a valid url")
-        else:
-            with st.spinner(text="Loading...."):
-                ## if selected drop down is YOUTUBE_SUMMARIZER for the source
-                if drop_down==YOUTUBE_SUMMARIZER:
-                    url_content=YoutubeLoader.from_youtube_url(input_url,language=["en", "hi"],).load()
+if submit:
+    if (input_url is not None and len(input_url)>0) or drop_down==PDF_SUMMARIZER :
+        try: 
+            if not validators.url(input_url) and drop_down != WIKIPEDIA and drop_down!=PDF_SUMMARIZER:
+                st.error("Not a valid url")
+            else:
+                with st.spinner(text="Loading...."):
+                    ## if selected drop down is YOUTUBE_SUMMARIZER for the source
+                    if drop_down==YOUTUBE_SUMMARIZER:
+                        url_content=YoutubeLoader.from_youtube_url(input_url,language=["en", "hi"],).load()
+                        
+                    ## if selected drop down is URL_SUMMARIZER for the source
+                    elif drop_down==URL_SUMMARIZER:
+                        url_content=UnstructuredURLLoader(urls=[input_url]).load()
+                        
+                    ## if selected drop down is wikipedia for the source
+                    elif drop_down==WIKIPEDIA:
+                        url_content=wikipedia.run(input_url)
                     
-                ## if selected drop down is URL_SUMMARIZER for the source
-                elif drop_down==URL_SUMMARIZER:
-                    url_content=UnstructuredURLLoader(urls=[input_url]).load()
+                     ## if selected drop down is PDF_SUMMARIZER for the source
+                    elif drop_down==PDF_SUMMARIZER:
+                        url_content=pdf_text
                     
-                ## if selected drop down is wikipedia for the source
-                elif drop_down==WIKIPEDIA:
-                    url_content=wikipedia.run(input_url)
+                    ## Expandable content with title URL Content
+                    with st.expander("URL Content"):
+                        st.write(url_content)
+                    
+                    ## Stream the input from chain
+                    st.write_stream(chain.stream({"input":url_content,"language":drop_down_language}))
+                    
+                    ## Show success message
+                    st.success("Hooray!!!")
                 
-                    ## if selected drop down is PDF_SUMMARIZER for the source
-                elif drop_down==PDF_SUMMARIZER:
-                    url_content=pdf_text
-                
-                ## Expandable content with title URL Content
-                with st.expander("URL Content"):
-                    st.write(url_content)
-                
-                ## Stream the input from chain
-                st.write_stream(chain.stream({"input":url_content,"language":drop_down_language}))
-                
-                ## Show success message
-                st.success("Hooray!!!")
-            
 
-    except Exception as e:
-        st.error(e)
-else:
-    st.error("URL cannot be empty")
+        except Exception as e:
+            st.error(e)
+    else:
+        st.error("URL cannot be empty")
 
