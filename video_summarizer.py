@@ -16,6 +16,22 @@ wikipedia=WikipediaQueryRun(api_wrapper=WikipediaAPIWrapper(top_k_results=1))
 llm = ChatGroq(model='llama-3.1-70b-versatile')
 
 
+import os
+from groq import Groq
+
+client = Groq()
+
+def get_audio_transcript(file_name:str,file)->str:
+    file_path=os.path.splitext(file_name)[1]
+    transcription = client.audio.transcriptions.create(
+    file=(file_path,file.read()),
+    model="distil-whisper-large-v3-en",
+    prompt="Transcript",
+    response_format="verbose_json",
+    )
+    return transcription.text
+    
+
 prompt="""
 Summarize the below content input on the below guidelines:
 - The minimum word count of the summary should strictly be {min_word_length} words. 
@@ -57,32 +73,29 @@ YOUTUBE_SUMMARIZER="Youtube summarizer"
 URL_SUMMARIZER="URL Summarizer"
 WIKIPEDIA = "Wikipedia"
 PDF_SUMMARIZER="PDF SUMMARIZER"
+AUDIO_SUMMARIZER="Audio Summarizer"
 with st.sidebar:
-    drop_down=st.selectbox("Choose a source",options=(YOUTUBE_SUMMARIZER,URL_SUMMARIZER,WIKIPEDIA,PDF_SUMMARIZER))
+    drop_down=st.selectbox("Choose a source",options=(YOUTUBE_SUMMARIZER,URL_SUMMARIZER,WIKIPEDIA,PDF_SUMMARIZER,AUDIO_SUMMARIZER))
     drop_down_language=st.selectbox("Summary Language",options=("English","Hindi","French","Spanish","Bengali","Mathili"))
     min_word_length=st.slider("Min Word Length",min_value=100,max_value=2000,step=100)
     max_word_length=st.slider("Max Word Length",min_value=100,max_value=2000,step=100,value=min_word_length)
     
 file=None
-if drop_down==PDF_SUMMARIZER:
-    file=st.file_uploader("Upload Files",type="pdf")
-    input_url=""
-elif drop_down==WIKIPEDIA:
-    input_url=st.text_area("Search to summarize")
+if drop_down in [AUDIO_SUMMARIZER, PDF_SUMMARIZER]:
+    file = st.file_uploader("Upload Files", type=["mp3,m4a","ogg"] if drop_down == AUDIO_SUMMARIZER else "pdf")
+    input_url = ""
+elif drop_down == WIKIPEDIA:
+    input_url = st.text_area("Search to summarize")
 else:
-    input_url=st.text_input("Enter URL")
-
-
-if file is not None:
-    pdf_text=read_pdf(file)
+    input_url = st.text_input("Enter URL")
     
 
 submit=st.button("Submit")
 
 if submit:
-    if (input_url is not None and len(input_url)>0) or drop_down==PDF_SUMMARIZER :
+    if (input_url is not None and len(input_url)>0) or drop_down==PDF_SUMMARIZER  or drop_down ==AUDIO_SUMMARIZER:
         try: 
-            if not validators.url(input_url) and drop_down != WIKIPEDIA and drop_down!=PDF_SUMMARIZER:
+            if not validators.url(input_url) and drop_down != WIKIPEDIA and drop_down!=PDF_SUMMARIZER and drop_down !=AUDIO_SUMMARIZER:
                 st.error("Not a valid url")
             else:
                 with st.spinner(text="Loading...."):
@@ -100,7 +113,9 @@ if submit:
                     
                      ## if selected drop down is PDF_SUMMARIZER for the source
                     elif drop_down==PDF_SUMMARIZER:
-                        url_content=pdf_text
+                        url_content=read_pdf(file)
+                    elif drop_down==AUDIO_SUMMARIZER:
+                        url_content=get_audio_transcript(file_name=file.name,file=file)
                     
                     ## Expandable content with title URL Content
                     with st.expander("URL Content"):

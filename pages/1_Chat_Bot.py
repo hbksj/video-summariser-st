@@ -46,7 +46,7 @@ if input:=st.chat_input(placeholder="Type something to chat"):
         st.success("Done")
         
         
-
+        
 if st.session_state.chat_history:
     for msgs in st.session_state.chat_history:
         role = "user" if type(msgs) is HumanMessage else "ai"
