@@ -7,6 +7,9 @@ from langchain.utilities import WikipediaAPIWrapper
 import pdfplumber
 import streamlit as st
 import validators
+from dotenv import load_dotenv
+
+load_dotenv()
 
 wikipedia=WikipediaQueryRun(api_wrapper=WikipediaAPIWrapper(top_k_results=1))
 
