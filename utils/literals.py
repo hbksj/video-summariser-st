@@ -1,0 +1,6 @@
+
+YOUTUBE_SUMMARIZER="Youtube summarizer"
+URL_SUMMARIZER="URL Summarizer"
+WIKIPEDIA = "Wikipedia"
+PDF_SUMMARIZER="PDF SUMMARIZER"
+AUDIO_SUMMARIZER="Audio Summarizer"
