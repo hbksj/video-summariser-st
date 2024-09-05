@@ -1,6 +1,5 @@
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
-from langchain.chains.conversation.base import ConversationChain
 from dotenv import load_dotenv
 import streamlit as st
 from langchain_core.output_parsers import StrOutputParser
@@ -50,10 +49,4 @@ if st.session_state.chat_history:
     for msgs in st.session_state.chat_history:
         role = "user" if type(msgs) is HumanMessage else "ai"
         st.chat_message(role).write(msgs.content)
-        
-        
-    
-
-        
-        
     
