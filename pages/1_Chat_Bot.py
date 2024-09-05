@@ -40,8 +40,10 @@ if st.session_state.chat_history:
 if input:=st.chat_input(placeholder="Type something to chat"):
     chat_history=st.session_state.chat_history
     st.session_state.chat_history.extend([HumanMessage(input)])
-    response=conversation_chain.invoke({"input":input,"chat_history":chat_history[-10:]})
-    st.session_state.chat_history.extend([AIMessage(response)])
+    with st.spinner("..."):
+        response=conversation_chain.invoke({"input":input,"chat_history":chat_history[-10:]})
+        st.session_state.chat_history.extend([AIMessage(response)])
+        st.success("Done")
         
         
 
