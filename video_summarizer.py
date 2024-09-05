@@ -14,7 +14,9 @@ llm = ChatGroq(model='llama-3.1-70b-versatile')
 
 
 prompt="""
-Summarize the below content input in less than 1000 words.
+Summarize the below content input on the below guidelines:
+- The minimum length of the summary should strictly be {min_word_length}. 
+- The maximum length of the summary should strictly be {max_word_length}. 
 
 Input :  {input}
 
@@ -46,6 +48,7 @@ def read_pdf(file)->str:
 st.title("Summarizer")
 
 
+
 YOUTUBE_SUMMARIZER="Youtube summarizer"
 URL_SUMMARIZER="URL Summarizer"
 WIKIPEDIA = "Wikipedia"
@@ -53,6 +56,8 @@ PDF_SUMMARIZER="PDF SUMMARIZER"
 with st.sidebar:
     drop_down=st.selectbox("Choose a source",options=(YOUTUBE_SUMMARIZER,URL_SUMMARIZER,WIKIPEDIA,PDF_SUMMARIZER))
     drop_down_language=st.selectbox("Summary Language",options=("English","Hindi","French","Spanish","Bengali","Mathili"))
+    min_word_length=st.slider("Min Word Length",min_value=100,max_value=2000,step=100)
+    max_word_length=st.slider("Max Word Length",min_value=100,max_value=2000,step=100,value=min_word_length)
     
 file=None
 if drop_down==PDF_SUMMARIZER:
@@ -98,7 +103,7 @@ if submit:
                         st.write(url_content)
                     
                     ## Stream the input from chain
-                    st.write_stream(chain.stream({"input":url_content,"language":drop_down_language}))
+                    st.write_stream(chain.stream({"input":url_content,"language":drop_down_language,"min_word_length":min_word_length,"max_word_length":max_word_length}))
                     
                     ## Show success message
                     st.success("Hooray!!!")
