@@ -18,8 +18,9 @@ llm = ChatGroq(model='llama-3.1-70b-versatile')
 
 prompt="""
 Summarize the below content input on the below guidelines:
-- The minimum length of the summary should strictly be {min_word_length}. 
-- The maximum length of the summary should strictly be {max_word_length}. 
+- The minimum length of the summary should strictly be {min_word_length} words. 
+- The maximum length of the summary should strictly be {max_word_length} words.
+- Show the number of words at the end of summary.
 
 Input :  {input}
 
