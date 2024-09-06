@@ -39,7 +39,7 @@ with st.sidebar:
         
     
 if drop_down in [AUDIO_SUMMARIZER, PDF_SUMMARIZER]:
-    file = st.file_uploader("Upload Files", type=["mp3,m4a","ogg"] if drop_down == AUDIO_SUMMARIZER else "pdf")
+    file = st.file_uploader("Upload Files", type=["mp3,m4a","ogg","mpeg","audio/mpeg","audio/mpg",] if drop_down == AUDIO_SUMMARIZER else "pdf")
     input_url = ""
 elif drop_down == WIKIPEDIA:
     input_url = st.text_area("Search to summarize")
