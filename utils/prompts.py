@@ -7,7 +7,7 @@ Summarize the below content input on the below guidelines:
 
 Input :  {input}
 
-Also detect the language of the transcript and let the user know the language.
+Also detect the language of the input text and let the user know the language.
 
 Also provide summary in below language if language is not empty else provide in english.
 
