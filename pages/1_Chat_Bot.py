@@ -6,7 +6,13 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.messages import AIMessage, HumanMessage
 from langchain_core.prompts import MessagesPlaceholder
 from utils.prompts import CHATBOT_PROMPT
+import os
 load_dotenv()
+
+# initialize env variables
+os.environ["LANGCHAIN_API_KEY"] = os.getenv("LANGCHAIN_API_KEY")
+os.environ["LANGCHAIN_TRACING_V2"]="true"
+os.environ["LANGCHAIN_PROJECT"]=os.getenv("LANGCHAIN_PROJECT")
 
 
 ## check if chat history in session state

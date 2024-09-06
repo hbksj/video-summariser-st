@@ -11,8 +11,12 @@ from utils.utils import get_audio_transcript,read_pdf
 from utils.prompts import SUMMARIZER_PROMPT
 from utils.literals import AUDIO_SUMMARIZER,YOUTUBE_SUMMARIZER,URL_SUMMARIZER,WIKIPEDIA,PDF_SUMMARIZER
 from dotenv import load_dotenv
-
+import os
 load_dotenv()
+# initialize env variables
+os.environ["LANGCHAIN_API_KEY"] = os.getenv("LANGCHAIN_API_KEY")
+os.environ["LANGCHAIN_TRACING_V2"]="true"
+os.environ["LANGCHAIN_PROJECT"]=os.getenv("LANGCHAIN_PROJECT")
 
 wikipedia=WikipediaQueryRun(api_wrapper=WikipediaAPIWrapper(top_k_results=1))
 
