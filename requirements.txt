@@ -30,3 +30,4 @@ pdfplumber
 arxiv
 duckduckgo-search
 jq
+langchain-nvidia-ai-endpoints

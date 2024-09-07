@@ -1,12 +1,12 @@
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from langchain.document_loaders import YoutubeLoader,UnstructuredURLLoader
+from langchain.document_loaders import UnstructuredURLLoader
 from langchain_community.tools import WikipediaQueryRun
 from langchain.utilities import WikipediaAPIWrapper
 import streamlit as st
 import validators
-from utils.utils import get_audio_transcript,read_pdf
+from utils.utils import get_audio_transcript,read_pdf,get_transcript
 from utils.prompts import SUMMARIZER_PROMPT
 from utils.literals import AUDIO_SUMMARIZER,YOUTUBE_SUMMARIZER,URL_SUMMARIZER,WIKIPEDIA,PDF_SUMMARIZER,TEXT_SUMMARIZER
 from dotenv import load_dotenv
@@ -59,7 +59,8 @@ if submit:=st.button("Submit"):
                     ## if selected drop down is YOUTUBE_SUMMARIZER for the source
                     
                     if drop_down==YOUTUBE_SUMMARIZER:
-                        url_content=YoutubeLoader.from_youtube_url(input_url,language=["en", "hi"],).load()
+                        url_content=""
+                        url_content=get_transcript(input_url=input_url,url_content=url_content)
                         
                     ## if selected drop down is URL_SUMMARIZER for the source
                     elif drop_down==URL_SUMMARIZER:

@@ -1,4 +1,5 @@
 from langchain_groq import ChatGroq
+from langchain_nvidia_ai_endpoints import ChatNVIDIA
 from langchain_core.prompts import ChatPromptTemplate
 from dotenv import load_dotenv
 import streamlit as st
@@ -23,7 +24,7 @@ if 'chat_history' not in st.session_state:
 output_parser=StrOutputParser()
 
 ## initialize LLM
-llm = ChatGroq(model='llama-3.1-70b-versatile')
+llm = ChatNVIDIA(model='meta/llama-3.1-405b-instruct')
 
 ## create prompt template
 prompt= ChatPromptTemplate.from_messages([("system",CHATBOT_PROMPT),MessagesPlaceholder("chat_history"),("user","{input}")])

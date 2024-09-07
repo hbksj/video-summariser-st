@@ -1,6 +1,7 @@
 import os
 from groq import Groq
 import pdfplumber
+from langchain.document_loaders import YoutubeLoader
 client = Groq()
 
 ## function to get audio transcript
@@ -21,3 +22,11 @@ def read_pdf(file)->str:
             for page in pdf.pages:
                 text+=page.extract_text()
     return text
+
+def get_transcript(input_url:str,url_content):
+    if not url_content:
+        return YoutubeLoader.from_youtube_url(input_url,language=["en", "hi","es",],).load()
+    else:
+        return url_content
+    
+    
