@@ -1,5 +1,5 @@
-from langchain_groq import ChatGroq
 from langchain_nvidia_ai_endpoints import ChatNVIDIA
+from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
 from dotenv import load_dotenv
 import streamlit as st
@@ -7,6 +7,7 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.messages import AIMessage, HumanMessage
 from langchain_core.prompts import MessagesPlaceholder
 from utils.prompts import CHATBOT_PROMPT
+from utils.literals import LLAMA_70B,LLAMA_405B
 import os
 load_dotenv()
 
@@ -23,18 +24,27 @@ if 'chat_history' not in st.session_state:
 ## initialize output parser
 output_parser=StrOutputParser()
 
-## initialize LLM
-llm = ChatNVIDIA(model='meta/llama-3.1-405b-instruct')
+
 
 ## create prompt template
 prompt= ChatPromptTemplate.from_messages([("system",CHATBOT_PROMPT),MessagesPlaceholder("chat_history"),("user","{input}")])
 
-## initialize chain
-conversation_chain= prompt | llm |output_parser
 
 
 ##Show Title
 st.title("Chatbot")
+with st.sidebar:
+    selected_model=st.selectbox(options=[LLAMA_405B,LLAMA_70B],label="Choose Model")
+    
+## initialize LLM
+
+if selected_model==LLAMA_70B:
+    llm=ChatGroq(model='llama-3.1-70b-versatile')
+elif selected_model==LLAMA_405B:
+    llm = ChatNVIDIA(model='meta/llama-3.1-405b-instruct')
+    
+## initialize chain
+conversation_chain= prompt | llm |output_parser
 
 ## Expaned for chat history
 if st.session_state.chat_history:
