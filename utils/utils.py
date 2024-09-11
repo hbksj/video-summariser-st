@@ -1,7 +1,11 @@
 import os
 from groq import Groq
+from langchain_groq import ChatGroq
+from langchain_nvidia_ai_endpoints import ChatNVIDIA
 import pdfplumber
 from langchain.document_loaders import YoutubeLoader
+
+from utils.literals import LLAMA_405B, LLAMA_70B
 client = Groq()
 
 ## function to get audio transcript
@@ -30,3 +34,10 @@ def get_transcript(input_url:str,url_content):
         return url_content
     
     
+def get_seletec_llm(model:str):
+    ## initialize LLM
+    if model==LLAMA_70B:
+        llm=ChatGroq(model='llama-3.1-70b-versatile')
+    elif model==LLAMA_405B:
+        llm = ChatNVIDIA(model='meta/llama-3.1-405b-instruct')
+    return llm

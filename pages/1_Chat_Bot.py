@@ -8,6 +8,7 @@ from langchain_core.messages import AIMessage, HumanMessage
 from langchain_core.prompts import MessagesPlaceholder
 from utils.prompts import CHATBOT_PROMPT
 from utils.literals import LLAMA_70B,LLAMA_405B
+from utils.utils import get_seletec_llm
 import os
 load_dotenv()
 
@@ -37,11 +38,7 @@ with st.sidebar:
     selected_model=st.selectbox(options=[LLAMA_405B,LLAMA_70B],label="Choose Model")
     
 ## initialize LLM
-
-if selected_model==LLAMA_70B:
-    llm=ChatGroq(model='llama-3.1-70b-versatile')
-elif selected_model==LLAMA_405B:
-    llm = ChatNVIDIA(model='meta/llama-3.1-405b-instruct')
+llm = get_seletec_llm(model=selected_model)
     
 ## initialize chain
 conversation_chain= prompt | llm |output_parser

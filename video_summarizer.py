@@ -6,9 +6,9 @@ from langchain_community.tools import WikipediaQueryRun
 from langchain.utilities import WikipediaAPIWrapper
 import streamlit as st
 import validators
-from utils.utils import get_audio_transcript,read_pdf,get_transcript
+from utils.utils import get_audio_transcript,read_pdf,get_transcript,get_seletec_llm
 from utils.prompts import SUMMARIZER_PROMPT
-from utils.literals import AUDIO_SUMMARIZER,YOUTUBE_SUMMARIZER,URL_SUMMARIZER,WIKIPEDIA,PDF_SUMMARIZER,TEXT_SUMMARIZER
+from utils.literals import AUDIO_SUMMARIZER,YOUTUBE_SUMMARIZER,URL_SUMMARIZER,WIKIPEDIA,PDF_SUMMARIZER,TEXT_SUMMARIZER,LLAMA_405B,LLAMA_70B
 from dotenv import load_dotenv
 import os
 load_dotenv()
@@ -25,19 +25,22 @@ output_parser=StrOutputParser()
 
 prompt_template=ChatPromptTemplate.from_template(SUMMARIZER_PROMPT)
 
-chain = prompt_template | llm | output_parser
+
 
 
 file=None
                 
 st.title("Summarizer")
 with st.sidebar:
+    selected_model=st.selectbox(options=[LLAMA_405B,LLAMA_70B],label="Choose Model")
     drop_down=st.selectbox("Choose a source",options=(YOUTUBE_SUMMARIZER,URL_SUMMARIZER,WIKIPEDIA,PDF_SUMMARIZER,AUDIO_SUMMARIZER,TEXT_SUMMARIZER))
     drop_down_language=st.selectbox("Summary Language",options=("English","Hindi","French","Spanish","Bengali","Mathili"))
     min_word_length=st.slider("Min Word Length",min_value=100,max_value=2000,step=100)
     max_word_length=st.slider("Max Word Length",min_value=100,max_value=2000,step=100,value=min_word_length)
- 
-        
+
+
+llm = get_seletec_llm(model=selected_model)
+chain = prompt_template | llm | output_parser       
  
    
 if drop_down in [AUDIO_SUMMARIZER, PDF_SUMMARIZER]:
