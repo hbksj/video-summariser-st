@@ -31,3 +31,4 @@ arxiv
 duckduckgo-search
 jq
 langchain-nvidia-ai-endpoints
+deepgram-sdk
