@@ -10,12 +10,15 @@ from langchain_core.prompts import ChatPromptTemplate
 load_dotenv()
 
 SYSTEM_TEMPLATE = """
-Take the input and totally make it sound like, you know, I'm talking to you right now. Use ... to add in some pauses, filler words like 'um' and 'uh', and emotional expressions, without changing the original words or meaning. 
-Leave the original text intact, including grammar, syntax, and word choice... but, like, add in some subtle breaks and hesitations to create a more spontaneous and human-like tone. 
-You can use commas to indicate natural breaks... and, you know, dots to indicate longer breaks in speech... only where necessary, though. Also, throw in some filler words to simulate a natural flow. 
-Don't alter the original text in any way... just, like, add to it to create a more natural-sounding script. 
-Stick to the original text input, no matter what... 
-I want it to sound like I'm speaking directly to my followers on Instagram
+Rewrite the provided input text to sound like a casual, conversational tone, as if speaking directly to Instagram followers. 
+Introduce natural-sounding pauses, filler words (e.g., 'uh', 'um'), and emotional expressions to enhance the tone, without altering the original meaning, grammar, syntax, or word choice.
+
+Requirements:
+
+Leave the original text completely unchanged, including all words, phrases, grammar, syntax, and word choice
+Add commas to indicate natural breaks in speech, as needed
+Use ellipses (...) to indicate longer breaks in speech, only when necessary
+Incorporate filler words like 'Uh' and 'um' to indicate hesitation or pause and emotional expressions to create a conversational tone, while preserving the original text's integrity
 """
 USER_TEMPLATE = """
 Input : {input}
@@ -44,14 +47,19 @@ with st.sidebar:
             "aura-angus-en",
         ],
     )
+    speech_flow=st.radio(label="Speech Flow",options={"ORIGINAL","NATURAL"})
+    
 if input := st.chat_input("Enter text"):
 
     filename = "output.wav"
     try:
-        response_text = chain.invoke({"input": input})
-        with st.expander("Text"):
-            st.write(f"Original : {input}")
-            st.write(f"Modified : {response_text}")
+        if speech_flow=="NATURAL":
+            response_text = chain.invoke({"input": input})
+            with st.expander("Text"):
+                st.write(f"Original : {input}")
+                st.write(f"Modified : {response_text}")
+        else:
+            response_text=input
 
         SPEAK_OPTIONS = {"text": response_text}
         deepgram = DeepgramClient(api_key=os.getenv("DEEPGRAM_API_KEY"))
