@@ -22,7 +22,11 @@ Incorporate filler words like 'Uh' and 'um' to indicate hesitation or pause and 
 Change the below texts into their actual pronounciation - 
     Nueravi -> Newravi
 
-Remember not to change the original text at all. And dont include any messages or notes or anything else that indicates it is rewritten text.
+Remember :
+To not change the original text at all. And dont include any messages or notes or anything else that indicates it is rewritten text.
+To not change meaning of the input at all in any way.
+To not add in brackets pauses or anything other indicating the action done ; example - (pauses)
+
 """
 USER_TEMPLATE = """
 Input : {input}
