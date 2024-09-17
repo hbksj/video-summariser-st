@@ -21,6 +21,8 @@ Use ellipses (...) to indicate longer breaks in speech, only when necessary
 Incorporate filler words like 'Uh' and 'um' to indicate hesitation or pause and emotional expressions to create a conversational tone, while preserving the original text's integrity
 Change the below texts into their actual pronounciation - 
     Nueravi -> Newravi
+
+Remember not to change the original text at all. And dont include any messages or notes or anything else that indicates it is rewritten text.
 """
 USER_TEMPLATE = """
 Input : {input}
