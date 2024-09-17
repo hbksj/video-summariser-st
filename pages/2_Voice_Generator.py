@@ -20,7 +20,7 @@ Add commas to indicate natural breaks in speech, as needed
 Use ellipses (...) to indicate longer breaks in speech, only when necessary
 Incorporate filler words like 'Uh' and 'um' to indicate hesitation or pause and emotional expressions to create a conversational tone, while preserving the original text's integrity
 Change the below texts into their actual pronounciation - 
-    Nueravi -> Nuuravi
+    Nueravi -> Newravi
 """
 USER_TEMPLATE = """
 Input : {input}
