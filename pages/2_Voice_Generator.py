@@ -7,6 +7,8 @@ from langchain_groq import ChatGroq
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 
+from utils.literals import LLAMA_405B
+
 load_dotenv()
 
 SYSTEM_TEMPLATE = """
@@ -32,7 +34,7 @@ USER_TEMPLATE = """
 Input : {input}
 """
 
-llm = ChatGroq(model="llama-3.1-70b-versatile")
+llm = ChatGroq(model=LLAMA_405B)
 
 output_parser = StrOutputParser()
 prompt = ChatPromptTemplate.from_messages([("system",SYSTEM_TEMPLATE),("user",USER_TEMPLATE)])
@@ -52,7 +54,7 @@ with st.sidebar:
             "aura-orion-en",
             "aura-perseus-en",
             "aura-zeus-en",
-            "aura-angus-en",
+            "aura-angus-en"
         ],
     )
     speech_flow=st.radio(label="Speech Flow",options={"ORIGINAL","NATURAL"})
