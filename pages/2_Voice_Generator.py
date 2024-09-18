@@ -8,6 +8,7 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 
 from utils.literals import LLAMA_405B
+from utils.utils import get_seletec_llm
 
 load_dotenv()
 
@@ -34,7 +35,7 @@ USER_TEMPLATE = """
 Input : {input}
 """
 
-llm = ChatGroq(model=LLAMA_405B)
+llm = get_seletec_llm(LLAMA_405B)
 
 output_parser = StrOutputParser()
 prompt = ChatPromptTemplate.from_messages([("system",SYSTEM_TEMPLATE),("user",USER_TEMPLATE)])
