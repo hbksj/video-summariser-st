@@ -59,7 +59,7 @@ with st.sidebar:
     
 if input := st.chat_input("Enter text"):
 
-    filename = "output.wav"
+    filename = "output.mp3"
     try:
         if speech_flow=="NATURAL":
             response_text = chain.invoke({"input": input})
