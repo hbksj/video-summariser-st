@@ -9,10 +9,17 @@ from utils.literals import LLAMA_405B
 from utils.utils import get_seletec_llm
 import boto3
 from pages.utils.voice_list import VoiceList
+import os
 
 load_dotenv()
 
-client = boto3.client("polly")
+
+client = boto3.client(
+    "polly",
+    aws_access_key_id=os.getenv("AKIAQFULTCL45AXVTE5B"),
+    aws_secret_access_key=os.getenv("OPA95OpEAdmP3lKGkOtLmwfWeYuUOlQWHhaJ"),
+    region_name="us-east-1",
+)
 
 if "voice_engine" not in st.session_state:
     st.session_state.voice_engine = "generative"
@@ -49,18 +56,18 @@ output_parser = StrOutputParser()
 # )
 # chain = prompt | llm | output_parser
 with st.sidebar:
-    st.session_state.voice_engine = st.selectbox(label="Voice Engine", options=["generative", "long-form", "neural"])
+    st.session_state.voice_engine = st.selectbox(
+        label="Voice Engine", options=["generative", "long-form", "neural"]
+    )
     st.session_state.voice_id = st.selectbox(
         "Choose Voice",
         options={
             "generative": sorted(VoiceList.voices_generative),
             "long-form": sorted(VoiceList.voices_longform),
-            "neural": sorted(VoiceList.voices_nueral)
         }.get(st.session_state.voice_engine, []),
     )
-    
-    
-    
+
+
 if input := st.chat_input("Enter text"):
 
     filename = "output.mp3"
