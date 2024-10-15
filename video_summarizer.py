@@ -16,7 +16,6 @@ load_dotenv()
 os.environ["LANGCHAIN_API_KEY"] = os.getenv("LANGCHAIN_API_KEY")
 os.environ["LANGCHAIN_TRACING_V2"]="true"
 os.environ["LANGCHAIN_PROJECT"]=os.getenv("LANGCHAIN_PROJECT")
-
 wikipedia=WikipediaQueryRun(api_wrapper=WikipediaAPIWrapper(top_k_results=1))
 
 llm = ChatGroq(model='llama-3.1-70b-versatile')
