@@ -16,9 +16,9 @@ load_dotenv()
 
 client = boto3.client(
     "polly",
-    aws_access_key_id=os.getenv("AKIAQFULTCL45AXVTE5B"),
-    aws_secret_access_key=os.getenv("OPA95OpEAdmP3lKGkOtLmwfWeYuUOlQWHhaJ"),
-    region_name="us-east-1",
+    aws_access_key_id=os.getenv("AWS_ACCESS_KEY"),
+    aws_secret_access_key=os.getenv("AWS_SECRET_KEY"),
+    region_name=os.getenv("AWS_SECRET_KEY"),
 )
 
 if "voice_engine" not in st.session_state:
