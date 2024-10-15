@@ -13,16 +13,14 @@ import os
 
 load_dotenv()
 
-access_key = os.getenv("AWS_ACCESS_KEY_ID")
-secret_key = os.getenv("AWS_SECRET_ACCESS_KEY")
-region = os.getenv("AWS_DEFAULT_REGION")
 
-client = boto3.client(
-    "polly",
-    aws_access_key_id=access_key,
-    aws_secret_access_key=secret_key,
-    region_name=region,
+session = boto3.Session(
+    aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
+    aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
+    region_name=os.getenv("AWS_DEFAULT_REGION"),
 )
+
+client = session.client("polly")
 
 if "voice_engine" not in st.session_state:
     st.session_state.voice_engine = "generative"
