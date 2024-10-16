@@ -97,3 +97,14 @@ class VoiceList:
         "Gregory",
         "Burcu",
     ]
+    voices_standard: list = [
+        "Aditi",
+        "Kendra",
+        "Kimberly",
+        "Salli",
+        "Raveena",
+        "Ivy",
+        "Mathew",
+        "Justin",
+        "Joey",
+    ]
